@@ -1,0 +1,13 @@
+# Install when ready to start this project
+sentence-transformers==2.3.1
+umap-learn==0.5.5
+hdbscan==0.8.33
+bertopic==0.16.0
+transformers==4.37.0
+# Install with: pip install torch==2.1.2+cu121 --index-url https://download.pytorch.org/whl/cu121
+torch==2.1.2+cu121
+pandas==2.1.4
+numpy==1.26.2
+matplotlib==3.8.2
+jupyter==1.0.0
+langdetect==1.0.9

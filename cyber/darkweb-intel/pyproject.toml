@@ -1,0 +1,103 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "taig"
+version = "0.1.0"
+description = "Threat Actor Intelligence Graph — a CTI analytics platform for extracting, enriching, and graphing threat actor communications"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["threat-intelligence", "nlp", "knowledge-graph", "cybersecurity", "llm", "ner"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Information Technology",
+    "Topic :: Security",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3.11",
+]
+
+dependencies = [
+    # NLP / embeddings
+    "sentence-transformers>=2.3.1",
+    "transformers>=4.37.0",
+    "langdetect>=1.0.9",
+    # Topic modeling / clustering
+    "bertopic>=0.16.0",
+    "umap-learn>=0.5.5",
+    "hdbscan>=0.8.33",
+    # Data
+    "pandas>=2.1.4",
+    "numpy>=1.26.2",
+    "pyarrow>=14.0.0",
+    # Config / schema
+    "pyyaml>=6.0",
+    "pydantic>=2.5.0",
+    # Visualization
+    "matplotlib>=3.8.2",
+    # Graphs
+    "networkx>=3.2",
+    # Retrieval
+    "rank-bm25>=0.2.2",
+    # Utilities
+    "tqdm>=4.66",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+gpu = [
+    # Install separately with the correct CUDA index URL:
+    # pip install torch>=2.1.2 --index-url https://download.pytorch.org/whl/cu121
+    "torch>=2.1.2",
+]
+cpu = [
+    "torch>=2.1.2",
+]
+retrieval = [
+    "faiss-cpu>=1.7.4",
+]
+retrieval-gpu = [
+    "faiss-gpu>=1.7.4",
+]
+neo4j = [
+    "neo4j>=5.14",
+]
+llm = [
+    "anthropic>=0.23.0",
+    "httpx>=0.26.0",
+]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.3",
+    "ipykernel>=6.29",
+    "jupyter>=1.0.0",
+]
+all = [
+    "taig[retrieval,llm,dev]",
+]
+
+[project.scripts]
+taig = "taig.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: tests that require real data files (deselect with -m 'not integration')",
+    "gpu: tests that require CUDA",
+]

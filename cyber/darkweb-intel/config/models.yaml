@@ -1,0 +1,32 @@
+# models.yaml
+# Model identifiers for each component of the TAIG pipeline.
+# All HuggingFace model IDs are sourced from https://huggingface.co/
+
+embeddings:
+  # Primary embedding model for English text
+  en: all-MiniLM-L6-v2
+  # Multilingual model; used for Russian, mixed-language, or unknown-language text
+  multilingual: paraphrase-multilingual-MiniLM-L12-v2
+  # Higher-quality option for English when VRAM / latency budget allows
+  en_large: all-mpnet-base-v2
+
+ner:
+  # CyNER: cybersecurity-domain NER trained on CTI corpora
+  # Paper: https://arxiv.org/abs/2204.05532
+  # HF: https://huggingface.co/CyberPeace-Institute/CyNER
+  cybersecurity: CyberPeace-Institute/CyNER
+  # GLiNER: generalist zero-shot NER; good for novel entity types
+  # HF: https://huggingface.co/urchade/gliner_medium-v2.1
+  general: urchade/gliner_medium-v2.1
+  # spaCy fallback (loaded via spacy.load, not HuggingFace)
+  spacy_fallback: en_core_web_lg
+
+attack_mapper:
+  # SentenceBERT model used to embed ATT&CK technique descriptions for similarity matching
+  technique_encoder: all-MiniLM-L6-v2
+
+llm:
+  # Default hosted model (requires ANTHROPIC_API_KEY)
+  anthropic: claude-sonnet-4-6
+  # Local model served via Ollama (requires Ollama running on localhost:11434)
+  ollama: mistral:7b-instruct

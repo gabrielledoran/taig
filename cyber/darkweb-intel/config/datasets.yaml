@@ -1,0 +1,164 @@
+# datasets.yaml
+# Intelligence corpus registry for the TAIG pipeline.
+#
+# HOW TO ADD A NEW DATASET
+# ------------------------
+# 1. Copy one of the entries below and adjust the fields.
+# 2. Set `enabled: true`.
+# 3. Place your raw files under `data/raw/<name>/`.
+# 4. The ingestion registry reads this file at runtime — no code changes needed.
+#
+# DATA ETHICS NOTE
+# ----------------
+# All corpora listed here are either publicly leaked and widely analyzed in
+# academic and threat-intelligence literature, or available via academic data-
+# sharing agreements. No live dark web scraping is performed. See ETHICS.md.
+#
+# FILES ARE NOT DOWNLOADED AUTOMATICALLY. You must obtain and place raw data
+# manually. See the `source` and `notes` fields for guidance.
+
+corpora:
+
+  conti:
+    enabled: false
+    display_name: "Conti Ransomware Leaks (2022)"
+    description: >
+      ~60,000 internal chat messages (Russian and English) leaked from the
+      Conti ransomware group in February 2022 following their public support
+      of Russia's invasion of Ukraine.
+    raw_dir: data/raw/conti
+    formats_supported: [json, csv]
+    # Column aliases — schema normalizer maps these to canonical names
+    column_aliases:
+      msg_id: [id, message_id, msg_id, ID]
+      timestamp: [date, ts, timestamp, time, Date]
+      sender: [from, fromId, from_id, sender, From, author]
+      recipient: [to, toId, to_id, recipient, To]
+      body: [text, body, message, content, msg, Text, Message]
+    languages: [ru, en]
+    date_range: ["2020-01-01", "2022-02-27"]
+    source: >
+      GitHub mirror: https://github.com/TheParmak/conti-leaks-englished
+      Archive.org: search "conti leaks 2022"
+    notes: >
+      Raw JSON available on Archive.org. The GitHub mirror includes an
+      English translation pass via Google Translate. Use original JSON for
+      Russian-language analysis.
+
+  babuk:
+    enabled: false
+    display_name: "Babuk Ransomware Leaks (2021)"
+    description: >
+      Internal communications and source code from the Babuk ransomware group,
+      leaked by a disgruntled member in mid-2021.
+    raw_dir: data/raw/babuk
+    formats_supported: [json, csv, txt]
+    column_aliases:
+      msg_id: [id, message_id]
+      timestamp: [date, timestamp, time]
+      sender: [from, sender, author]
+      recipient: [to, recipient]
+      body: [text, body, message, content]
+    languages: [ru, en]
+    date_range: ["2020-06-01", "2021-07-01"]
+    source: >
+      Publicly archived; search "Babuk ransomware source code leak 2021"
+      on Archive.org and GitHub mirrors.
+    notes: >
+      Corpus is smaller than Conti (~few thousand messages). Source code
+      leak may be stored separately from communications; configure paths
+      accordingly.
+
+  black_basta:
+    enabled: false
+    display_name: "Black Basta Chat Leaks (2024)"
+    description: >
+      Internal Matrix chat logs from Black Basta RaaS operation, leaked in
+      early 2024. Approximately 200,000 messages covering operations,
+      negotiations, and internal disputes.
+    raw_dir: data/raw/black_basta
+    formats_supported: [json, csv]
+    column_aliases:
+      msg_id: [event_id, id, message_id]
+      timestamp: [origin_server_ts, timestamp, date]
+      sender: [sender, from, user_id]
+      recipient: [room_id, to, recipient]
+      body: [body, content, message, text]
+    languages: [ru, en]
+    date_range: ["2022-09-01", "2024-09-18"]
+    source: >
+      Released via threat intelligence community in early 2024.
+      Search "Black Basta Matrix leak 2024" for archive mirrors.
+    notes: >
+      Messages use Matrix protocol JSON format. The `origin_server_ts` field
+      is a Unix timestamp in milliseconds — divide by 1000 before parsing.
+      Room IDs can be used as recipient proxy.
+
+  lockbit:
+    enabled: false
+    display_name: "LockBit Leak Corpus"
+    description: >
+      Internal communications and affiliate panel data from LockBit RaaS,
+      released following law enforcement action in 2024 (Operation Cronos)
+      and a subsequent retaliatory data dump.
+    raw_dir: data/raw/lockbit
+    formats_supported: [json, csv, sql]
+    column_aliases:
+      msg_id: [id, message_id, ticket_id]
+      timestamp: [created_at, timestamp, date]
+      sender: [sender, from, username, user]
+      recipient: [to, recipient, room]
+      body: [body, message, text, content, description]
+    languages: [en, ru]
+    date_range: ["2020-01-01", "2024-05-01"]
+    source: >
+      Partial data released by LockBit after Operation Cronos (Feb 2024).
+      Additional data released via community channels after May 2024 breach.
+    notes: >
+      Some files may be SQL dumps. Use pandas `read_sql` or convert to CSV
+      before ingestion. Schema varies by data subset (affiliate data vs.
+      operator communications).
+
+  hack_forums:
+    enabled: false
+    display_name: "Hack Forums Academic Dataset (Portnoff et al. 2017)"
+    description: >
+      Forum posts and threat actor persona data from Hack Forums, collected
+      for academic research by Portnoff et al. Published at IEEE S&P 2017.
+    raw_dir: data/raw/hack_forums
+    formats_supported: [csv, json]
+    column_aliases:
+      msg_id: [post_id, id]
+      timestamp: [post_date, date, timestamp]
+      sender: [author, username, user_id]
+      recipient: [thread_id, forum_id]
+      body: [body, post_body, content, text]
+    languages: [en]
+    date_range: ["2007-01-01", "2015-12-31"]
+    source: >
+      Academic data sharing — contact authors via IEEE S&P 2017 paper.
+      Portnoff et al., "Tools for Automated Analysis of Cybercriminal Markets"
+    notes: >
+      Access requires contacting the original authors. Not publicly downloadable.
+      This dataset requires signed data-sharing agreement.
+
+  custom:
+    enabled: false
+    display_name: "Custom Corpus (user-defined)"
+    description: >
+      Placeholder for user-supplied intelligence corpora not listed above.
+      Copy this block, rename the key, and fill in the fields.
+    raw_dir: data/raw/custom
+    formats_supported: [json, csv, txt]
+    column_aliases:
+      msg_id: [id]
+      timestamp: [timestamp]
+      sender: [sender]
+      recipient: [recipient]
+      body: [body]
+    languages: [en]
+    date_range: null
+    source: "user-supplied"
+    notes: >
+      Place raw files in data/raw/custom/. Set enabled: true and adjust
+      column_aliases to match your file schema.
