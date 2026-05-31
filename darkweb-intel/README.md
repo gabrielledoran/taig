@@ -1,4 +1,4 @@
-# Threat Actor Intelligence Gatherer (TAIG)
+# TAIG — Threat Actor Intelligence Graph
 
 NLP pipeline for extracting structured intelligence from threat actor communications using publicly available or leaked datasets.
 
