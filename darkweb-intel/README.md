@@ -1,4 +1,4 @@
-# Dark Web Forum Intelligence Extractor
+# Threat Actor Intelligence Gatherer (TAIG)
 
 NLP pipeline for extracting structured intelligence from threat actor communications using publicly available or leaked datasets.
 
