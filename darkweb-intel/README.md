@@ -14,6 +14,8 @@ Can semantic features cluster dark web forum personas into threat actor groups a
 |---------|----------|--------|
 | Conti ransomware leaks (2022) | ~60,000 internal chat messages, Russian/English | Archived publicly; see `notebooks/01_data_ingestion.ipynb` |
 | Babuk ransomware leaks (2021) | Source code + internal communications | Publicly archived |
+| Black Basta chat leaks (2024) | ~200,000 Matrix protocol chat messages, Russian/English, Sept 2022 – Sept 2024 | Released via threat intelligence community; search "Black Basta Matrix leak 2024" |
+| LockBit leak corpus (2024) | Affiliate panel communications and operator messages following Operation Cronos | Partial release post-Operation Cronos (Feb 2024) and subsequent community dump (May 2024) |
 | Hack Forums academic dataset | Forum posts, threat actor personas | Contact authors (Portnoff et al. 2017 — IEEE S&P) |
 | Exploit.db offensive security DB | Public exploit posts with author metadata | exploit-db.com/gitlab |
 
@@ -44,7 +46,7 @@ pip install -r requirements.txt
 ## Notes on data ethics
 
 All data used here is either:
-- Publicly leaked (Conti, Babuk) and widely analyzed in academic literature
+- Publicly leaked (Conti, Babuk, Black Basta, LockBit) and widely analyzed in academic and threat intelligence literature
 - Publicly available (Exploit-DB)
 - Available through academic data-sharing agreements (Hack Forums dataset)
 
